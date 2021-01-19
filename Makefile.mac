@@ -1,0 +1,53 @@
+#GL=1
+
+CC = $(RETRO68)/bin/powerpc-apple-macos-gcc
+AR = $(RETRO68)/bin/powerpc-apple-macos-ar
+RINCLUDES=$(RETRO68)/powerpc-apple-macos/RIncludes
+SDL_INCLUDE=$(RETRO68)/powerpc-apple-macos/include/SDL
+
+TARGET = libSDL_mixer.a
+
+CFLAGS=-O2 -D__MACOS__ $(DEFS) -Iinclude -I$(SDL_INCLUDE) -I$(RETRO68)/universal/CIncludes -Dpowerc -DWAV_MUSIC -DMID_MUSIC
+
+SRCS = \
+	dynamic_flac.c \
+	dynamic_fluidsynth.c \
+	dynamic_mod.c \
+	dynamic_mp3.c \
+	dynamic_ogg.c \
+	effect_position.c \
+	effect_stereoreverse.c \
+	effects_internal.c \
+	fluidsynth.c \
+	load_aiff.c \
+	load_flac.c \
+	load_ogg.c \
+	load_voc.c \
+	mixer.c \
+	music.c \
+	music_cmd.c \
+	music_flac.c \
+	music_mad.c \
+	music_mod.c \
+	music_modplug.c \
+	music_ogg.c \
+	playmus.c \
+	playwave.c \
+	wavestream.c \
+	native_midi/native_midi_common.c \
+	native_midi/native_midi_mac.c \
+
+
+OBJS = $(SRCS:.c=.o)
+
+$(TARGET): \
+	$(OBJS)
+	$(AR) rcs $(TARGET) $(OBJS) 
+
+install:
+	cp libSDL_mixer.a $(RETRO68)/powerpc-apple-macos/lib/libSDL_mixer.a
+	mkdir -p $(RETRO68)/powerpc-apple-macos/include/SDL
+	cp -ru SDL_mixer.h $(RETRO68)/powerpc-apple-macos/include/SDL/SDL_mixer.h
+
+clean:
+	rm -f $(OBJS)
