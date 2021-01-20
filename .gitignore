@@ -1,0 +1,6 @@
+*.o
+*.a
+*.elf
+*.la
+*.log
+config.status

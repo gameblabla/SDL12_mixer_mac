@@ -1,13 +1,13 @@
 #GL=1
 
-CC = $(RETRO68)/bin/powerpc-apple-macos-gcc
-AR = $(RETRO68)/bin/powerpc-apple-macos-ar
-RINCLUDES=$(RETRO68)/powerpc-apple-macos/RIncludes
-SDL_INCLUDE=$(RETRO68)/powerpc-apple-macos/include/SDL
+CC = $(RETRO68)/bin/m68k-apple-macos-gcc
+AR = $(RETRO68)/bin/m68k-apple-macos-ar
+RINCLUDES=$(RETRO68)/m68k-apple-macos/RIncludes
+SDL_INCLUDE=$(RETRO68)/m68k-apple-macos/include/SDL
 
 TARGET = libSDL_mixer.a
 
-CFLAGS=-O2 -D__MACOS__ $(DEFS) -Iinclude -I$(SDL_INCLUDE) -I$(RETRO68)/universal/CIncludes -Dpowerc -DWAV_MUSIC -DMID_MUSIC
+CFLAGS=-Os -fdata-sections -ffunction-sections -m68020 -D__MACOS__ $(DEFS) -Iinclude -I$(SDL_INCLUDE) -I$(RETRO68)/universal/CIncludes -DWAV_MUSIC -DMID_MUSIC -DNODELAY
 
 SRCS = \
 	dynamic_flac.c \
@@ -45,9 +45,9 @@ $(TARGET): \
 	$(AR) rcs $(TARGET) $(OBJS) 
 
 install:
-	cp libSDL_mixer.a $(RETRO68)/powerpc-apple-macos/lib/libSDL_mixer.a
-	mkdir -p $(RETRO68)/powerpc-apple-macos/include/SDL
-	cp -ru SDL_mixer.h $(RETRO68)/powerpc-apple-macos/include/SDL/SDL_mixer.h
+	cp libSDL_mixer.a $(RETRO68)/m68k-apple-macos/lib/libSDL_mixer.a
+	mkdir -p $(RETRO68)/m68k-apple-macos/include/SDL
+	cp -ru SDL_mixer.h $(RETRO68)/m68k-apple-macos/include/SDL/SDL_mixer.h
 
 clean:
 	rm -f $(OBJS) libSDL_mixer.a
